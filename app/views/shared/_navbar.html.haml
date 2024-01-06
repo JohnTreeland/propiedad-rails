@@ -1,0 +1,65 @@
+.navbar.navbar-expand-sm.navbar-light.navbar-lewagon
+  .container-fluid
+    = link_to root_path, class: "navbar-brand" do
+      %i.fa-solid.fa-house.fa-xl
+    %button.navbar-toggler{"aria-controls" => "navbarSupportedContent", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-bs-target" => "#navbarSupportedContent", "data-bs-toggle" => "collapse", type: "button"}
+      %span.navbar-toggler-icon
+    #navbarSupportedContent.collapse.navbar-collapse
+      %ul.navbar-nav.me-auto
+        - if user_signed_in?
+          %li.nav-item.active
+            = link_to "Home", "#", class: "nav-link"
+          %li.nav-item
+            = link_to "Messages", "#", class: "nav-link"
+          %li.nav-item
+            %a#navbarDropdown.nav-item{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#"}
+              %i.fa-solid.fa-user.fa-xl.p-2.m-2
+            .dropdown-menu.dropdown-menu-end{"aria-labelledby" => "navbarDropdown"}
+              = link_to "Action", "#", class: "dropdown-item"
+              = link_to "Another action", "#", class: "dropdown-item"
+              = link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item"
+        - else
+          %li.nav-item
+            %button.btn.btn-outline-primary.mx-2{"data-bs-target" => "#loginModal", "data-bs-toggle" => "modal", type: "button"}
+              Iniciar sesión
+          %li.nav-item
+            %button.btn.btn-outline-success.mx-2{"data-bs-target" => "#signupModal", "data-bs-toggle" => "modal", type: "button"}
+              Registrarse
+
+
+#loginModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "loginModalLabel", tabindex: "-1"}
+  .modal-dialog.modal-dialog-centered
+    .modal-content
+      .modal-header
+        %h1#loginModalLabel.modal-title.fs-5 Iniciar sesión
+        %button.btn-close{"aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button"}
+      = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+        .modal-body
+          = f.input :email, label: "Correo", required: false, autofocus: true, input_html: { autocomplete: "email" }
+          = f.input :password, label: "Contraseña", required: false, input_html: { autocomplete: "current-password" }
+          = f.input :remember_me, label: "Recordarme?", as: :boolean if devise_mapping.rememberable?
+        .modal-footer
+          %button.btn.btn-secondary{"data-bs-dismiss" => "modal", type: "button"} Cerrar
+          = f.button :submit, "Iniciar sesión", class: "btn btn-primary"
+
+#signupModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "signupModalLabel", tabindex: "-1"}
+  .modal-dialog.modal-dialog-centered
+    .modal-content
+      .modal-header
+        %h1#signupModalLabel.modal-title.fs-5 Registrarse
+        %button.btn-close{"aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button"}
+      = simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+        .modal-body
+          = f.input :name, label: "Nombres", required: true, autofocus: true, input_html: { autocomplete: "name" }
+          = f.input :surname, label: "Apellidos", required: true, input_html: { autocomplete: "last_name" }
+          = f.input :email, label: "Correo", required: true, autofocus: true, input_html: { autocomplete: "email" }
+          = f.input :password,
+            required: true,
+            hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
+            input_html: { autocomplete: "new-password" }
+          = f.input :password_confirmation,
+            required: true,
+            input_html: { autocomplete: "new-password" }
+        .modal-footer
+          %button.btn.btn-secondary{"data-bs-dismiss" => "modal", type: "button"} Cerrar
+          = f.button :submit, "Registrarse", class: "btn btn-primary"
