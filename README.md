@@ -1,1 +1,3 @@
-Rails app generated with [lewagon/rails-templates](https://github.com/lewagon/rails-templates), created by the [Le Wagon coding bootcamp](https://www.lewagon.com) team.
+## Tarea DATAPROP
+
+Realizado en Rails 7.0 usando Ruby 3.1.2, requiere de la realización del bundle y de la instalación de Postgres en local.
